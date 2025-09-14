@@ -27,11 +27,13 @@
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/typeorm": "^11.0.0",
     "amqp": "^0.2.7",
     "amqplib": "^0.10.9",
+    "jsonrepair": "^3.13.0",
     "nest-commander": "^3.19.1",
     "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
