@@ -1,20 +1,22 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
-import { config as dotenvConfig } from 'dotenv';
+import { ConfigService } from '@nestjs/config';
 
-dotenvConfig({ path: '.env' });
+export const dataSourceOptions = (configService: ConfigService) =>
+  ({
+    type: 'postgres',
+    host: configService.get<string>('DB_HOST'),
+    port: configService.get<number>('DB_PORT'),
+    username: configService.get<string>('DB_USER'),
+    password: configService.get<string>('DB_PASSWORD'),
+    database: configService.get<string>('DB_DATABASE'),
+    entities: ['dist/src/domain/**/*entity.js'],
+    synchronize: false,
+    migrationsTableName: 'migrations',
+    migrations: ['dist/src/infrastructure/database/migrations/*.js'],
+    seeds: ['dist/src/infrastructure/database/seeders/*.js'],
+    seedTracking: true,
+  }) as DataSourceOptions;
 
-export const dataSourceOptions = {
-  type: 'postgres',
-  host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT),
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-  entities: ['dist/src/domain/**/*entity.js'],
-  migrations: ['dist/src/infrastructure/database/migrations/*.js'],
-  seeds: ['dist/src/infrastructure/database/seeders/*.js'],
-  synchronize: false,
-  logging: false,
-} as DataSourceOptions;
-
-export const dataSource = new DataSource(dataSourceOptions);
+export const dataSource = new DataSource(
+  dataSourceOptions(new ConfigService()),
+);
