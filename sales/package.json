@@ -23,7 +23,9 @@
     "migration:create": "typeorm migration:create",
     "up": "npm run typeorm -- migration:run",
     "undo": "npm run typeorm -- migration:revert",
-    "seed": "node dist/src/infrastructure/database/scripts/seed.js"
+    "seed": "node dist/src/infrastructure/database/scripts/seed.js",
+    "dispatch-messages": "node dist/src/infrastructure/message-bus/cli-commands/command-handler dispatch-messages",
+    "handle-messages": "node dist/src/infrastructure/message-bus/cli-commands/command-handler handle-messages"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
