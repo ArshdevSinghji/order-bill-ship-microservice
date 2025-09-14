@@ -30,4 +30,11 @@ export class Order {
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
+
+  public markStatus(newStatus: OrderStatus) {
+    if (this.status === newStatus) {
+      throw new Error('Order is already in the desired status.');
+    }
+    this.status = newStatus;
+  }
 }

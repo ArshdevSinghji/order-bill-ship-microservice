@@ -5,6 +5,7 @@ export class Event {
   appId: string;
   fired_at: Date;
   payload: any;
+
   constructor(payload) {
     this.id = v4();
     this.appId = process.env.APP_NAME ?? '';
