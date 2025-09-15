@@ -9,6 +9,10 @@ export class OrderRepository extends Repository<Order> {
   }
 
   async getOrder(id: string) {
-    return this.findOne({ where: { id } });
+    return await this.findOne({ where: { id } });
+  }
+
+  async createOrder(order: Order) {
+    return await this.save(order);
   }
 }

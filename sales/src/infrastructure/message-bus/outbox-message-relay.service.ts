@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { OutboxMessage } from 'src/domain/outbox-message/outbox-message.entity';
 import { OutboxMessageRepository } from '../repositories/outbox-message/outbox-message.repository';
 import { ProducerService } from './rabbitmq/producer/producer.service';
 
@@ -8,7 +7,7 @@ import { ProducerService } from './rabbitmq/producer/producer.service';
 export class OutboxMessageRelay {
   constructor(
     private readonly producerService: ProducerService,
-    @InjectRepository(OutboxMessage)
+    @InjectRepository(OutboxMessageRepository)
     private readonly outboxMessageRepository: OutboxMessageRepository,
   ) {}
 

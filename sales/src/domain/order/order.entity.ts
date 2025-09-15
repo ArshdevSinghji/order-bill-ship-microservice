@@ -31,10 +31,27 @@ export class Order {
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 
-  public markStatus(newStatus: OrderStatus) {
-    if (this.status === newStatus) {
-      throw new Error('Order is already in the desired status.');
-    }
-    this.status = newStatus;
+  public markAsPending() {
+    this.status = OrderStatus.PENDING;
+  }
+
+  public markAsPlaced() {
+    this.status = OrderStatus.PLACED;
+  }
+
+  public markAsBilled() {
+    this.status = OrderStatus.BILLED;
+  }
+
+  public markAsPaymentFailed() {
+    this.status = OrderStatus.PAYMENT_FAILED;
+  }
+
+  public markAsReadyToShip() {
+    this.status = OrderStatus.READY_TO_SHIP;
+  }
+
+  public markAsCancelled() {
+    this.status = OrderStatus.CANCELLED;
   }
 }

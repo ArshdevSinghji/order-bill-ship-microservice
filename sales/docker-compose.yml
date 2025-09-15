@@ -97,6 +97,8 @@ services:
         condition: service_healthy
     volumes:
       - ./logs:/app/logs
+      - .:/app
+      - /app/node_modules
 
 networks:
   sales-network:

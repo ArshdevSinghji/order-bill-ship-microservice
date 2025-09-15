@@ -1,4 +1,5 @@
 import { v4 } from 'uuid';
+
 export class Event {
   type: string;
   id: string;
