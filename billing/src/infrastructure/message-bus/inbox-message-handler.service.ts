@@ -22,6 +22,9 @@ export class InboxMessageHandler {
     const messageId = message.properties.messageId;
     const message_type =
       message.properties.type || message.properties.headers.type;
+
+    console.log(`INFO Received message: ${message}`);
+
     const signatureTypes = this.signatureTypes.getSignatureTypes();
     const handlers = signatureTypes[message_type];
 

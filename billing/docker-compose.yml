@@ -36,24 +36,24 @@ services:
     depends_on:
       - postgres
 
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    restart: unless-stopped
-    environment:
-      RABBITMQ_DEFAULT_USER: billing
-      RABBITMQ_DEFAULT_PASS: billing
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
-    ports:
-      - '5673:5672'
-      - '15673:15672'
-    networks:
-      - billing-network
-    healthcheck:
-      test: rabbitmq-diagnostics -q ping
-      interval: 30s
-      timeout: 30s
-      retries: 3
+  # rabbitmq:
+  #   image: rabbitmq:3-management-alpine
+  #   restart: unless-stopped
+  #   environment:
+  #     RABBITMQ_DEFAULT_USER: billing
+  #     RABBITMQ_DEFAULT_PASS: billing
+  #   volumes:
+  #     - rabbitmq_data:/var/lib/rabbitmq
+  #   ports:
+  #     - '5673:5672'
+  #     - '15673:15672'
+  #   networks:
+  #     - billing-network
+  #   healthcheck:
+  #     test: rabbitmq-diagnostics -q ping
+  #     interval: 30s
+  #     timeout: 30s
+  #     retries: 3
 
   billing-service:
     build:
@@ -67,17 +67,17 @@ services:
       DB_PASSWORD: billing
       DB_DATABASE: billing_db
 
-      RABBITMQ_USERNAME: billing
-      RABBITMQ_PASSWORD: billing
-      RABBITMQ_DSN: amqp://billing:billing@rabbitmq:5672/
+      RABBITMQ_USERNAME: guest
+      RABBITMQ_PASSWORD: guest
+      RABBITMQ_DSN: amqp://guest:guest@rabbitmq:5672/
       APP_NAME: billing-service
-      RABBITMQ_FANOUT_EXCHANGE: billing_fanout_exchange
+      RABBITMQ_FANOUT_EXCHANGE: fanout_exchange
       RABBITMQ_HEARTBEAT_INTERVAL: 30
       RABBITMQ_DIRECT_EXCHANGE: billing_direct_exchange
-      RABBITMQ_PRIMARY_QUEUE: billing_primary_queue
+      RABBITMQ_PRIMARY_QUEUE: order-bill-ship_primary_queue
       RABBITMQ_RETRY_QUEUE: billing_retry_queue
-      RABBITMQ_RETRY_BINDING_KEY: retry_key
-      RABBITMQ_ERROR_BINDING_KEY: error_key
+      RABBITMQ_RETRY_BINDING_KEY: billing_retry_key
+      RABBITMQ_ERROR_BINDING_KEY: billing_error_key
       FAILED_MESSAGE_DELAYED_RETRIES: 5
       FAILED_MESSAGE_IMMEDIATE_RETRIES: 3
       RETRY_QUEUE_MESSAGE_TTL: 60000
@@ -90,10 +90,9 @@ services:
       - '3001:3000'
     networks:
       - billing-network
+      - sales-network
     depends_on:
       postgres:
-        condition: service_healthy
-      rabbitmq:
         condition: service_healthy
     volumes:
       - ./logs:/app/logs
@@ -103,6 +102,9 @@ services:
 networks:
   billing-network:
     driver: bridge
+  sales-network:
+    external: true
+    name: sales_sales-network
 
 volumes:
   postgres_data:
