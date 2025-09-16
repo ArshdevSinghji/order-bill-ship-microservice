@@ -74,7 +74,7 @@ services:
       RABBITMQ_FANOUT_EXCHANGE: fanout_exchange
       RABBITMQ_HEARTBEAT_INTERVAL: 30
       RABBITMQ_DIRECT_EXCHANGE: billing_direct_exchange
-      RABBITMQ_PRIMARY_QUEUE: order-bill-ship_primary_queue
+      RABBITMQ_PRIMARY_QUEUE: billing_primary_queue
       RABBITMQ_RETRY_QUEUE: billing_retry_queue
       RABBITMQ_RETRY_BINDING_KEY: billing_retry_key
       RABBITMQ_ERROR_BINDING_KEY: billing_error_key
