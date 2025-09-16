@@ -6,10 +6,10 @@ export class OrderPlaced extends Event {
   getBody() {
     return {
       sales_order_placed: {
-        order_id: this.payload.uuid,
+        order_id: this.payload.id,
         products: [
           {
-            product_id: this.payload?.products[0]?.id,
+            product_id: this.payload?.products[0]?.product_id,
             quantity: this.payload?.products[0]?.quantity,
           },
         ],

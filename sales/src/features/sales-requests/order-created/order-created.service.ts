@@ -17,9 +17,10 @@ export class OrderCreatedService {
 
   @Transactional()
   async handle(order: Order) {
+    const savedOrder = await this.orderRepository.createOrder(order);
     await this.outboxMessageRepository.storeOutboxMessage(
-      new OrderPlaced(order),
+      new OrderPlaced(savedOrder),
     );
-    return await this.orderRepository.createOrder(order);
+    return savedOrder;
   }
 }

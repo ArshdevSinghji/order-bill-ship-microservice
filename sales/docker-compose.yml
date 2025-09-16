@@ -71,13 +71,13 @@ services:
       RABBITMQ_PASSWORD: guest
       RABBITMQ_DSN: amqp://guest:guest@rabbitmq:5672/
       APP_NAME: sales-service
-      RABBITMQ_FANOUT_EXCHANGE: sales_fanout_exchange
+      RABBITMQ_FANOUT_EXCHANGE: fanout_exchange
       RABBITMQ_HEARTBEAT_INTERVAL: 30
       RABBITMQ_DIRECT_EXCHANGE: sales_direct_exchange
-      RABBITMQ_PRIMARY_QUEUE: sales_primary_queue
+      RABBITMQ_PRIMARY_QUEUE: order-bill-ship_primary_queue
       RABBITMQ_RETRY_QUEUE: sales_retry_queue
-      RABBITMQ_RETRY_BINDING_KEY: retry_key
-      RABBITMQ_ERROR_BINDING_KEY: error_key
+      RABBITMQ_RETRY_BINDING_KEY: sales_retry_key
+      RABBITMQ_ERROR_BINDING_KEY: sales_error_key
       FAILED_MESSAGE_DELAYED_RETRIES: 5
       FAILED_MESSAGE_IMMEDIATE_RETRIES: 3
       RETRY_QUEUE_MESSAGE_TTL: 60000
