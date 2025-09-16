@@ -1,5 +1,13 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
+import {
+  addTransactionalDataSource,
+  initializeTransactionalContext,
+} from 'typeorm-transactional';
+
+initializeTransactionalContext();
+
+let dataSourceInstance: DataSource | null = null;
 
 export const dataSourceOptions = (configService: ConfigService) =>
   ({
@@ -17,6 +25,10 @@ export const dataSourceOptions = (configService: ConfigService) =>
     seedTracking: true,
   }) as DataSourceOptions;
 
-export const dataSource = new DataSource(
-  dataSourceOptions(new ConfigService()),
-);
+export const dataSource = (() => {
+  if (!dataSourceInstance) {
+    dataSourceInstance = new DataSource(dataSourceOptions(new ConfigService()));
+    return addTransactionalDataSource(dataSourceInstance);
+  }
+  return dataSourceInstance;
+})();
