@@ -1,7 +1,7 @@
 import { OutBoxStatus } from 'src/domain/outbox-message/enums/outbox-status.enum';
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateOutbox1757998551 implements MigrationInterface {
+export class CreateOutbox1758000397 implements MigrationInterface {
   async up(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.createTable(
       new Table({

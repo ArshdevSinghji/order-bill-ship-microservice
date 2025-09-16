@@ -14,6 +14,7 @@ export class SignatureTypes {
         // ),
         () => console.log('order billed!'),
       ],
+      'sales.order_placed': [() => console.log('order placed!')],
     };
   }
 

@@ -1,0 +1,16 @@
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
+@Entity('billings')
+export class Billing {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column({ type: 'uuid' })
+  order_id: string;
+
+  @Column({ type: 'uuid' })
+  billing_account_ids: string;
+
+  @Column()
+  billing_address: string;
+}
