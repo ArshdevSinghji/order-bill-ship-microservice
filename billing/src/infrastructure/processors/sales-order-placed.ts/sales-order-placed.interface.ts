@@ -4,8 +4,10 @@ interface Product {
 }
 
 export interface SalesOrderPlacedEvent {
-  order_id: string;
-  products: Product[];
-  customer_id: string;
-  order_total: number;
+  sales_order_placed: {
+    order_id: string;
+    products: Product[];
+    customer_id: string;
+    order_total: number;
+  };
 }

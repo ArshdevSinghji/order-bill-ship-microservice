@@ -22,4 +22,8 @@ export class BillingAccount {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  async updateBalance(amount: number) {
+    this.balance -= amount;
+  }
 }
