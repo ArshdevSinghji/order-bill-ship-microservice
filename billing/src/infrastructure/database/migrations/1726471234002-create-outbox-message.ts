@@ -1,8 +1,9 @@
-import { OutBoxStatus } from 'src/domain/outbox-message/enums/outbox-status.enum';
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateOutbox1758000397 implements MigrationInterface {
-  async up(queryRunner: QueryRunner): Promise<any> {
+export class CreateOutboxMessage1726471234002 implements MigrationInterface {
+  name = 'CreateOutboxMessage1726471234002';
+
+  async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
         name: 'outbox_message',
@@ -12,6 +13,7 @@ export class CreateOutbox1758000397 implements MigrationInterface {
             type: 'uuid',
             isPrimary: true,
             isGenerated: true,
+            generationStrategy: 'uuid',
             isNullable: false,
           },
           {
@@ -44,8 +46,8 @@ export class CreateOutbox1758000397 implements MigrationInterface {
           {
             name: 'status',
             type: 'enum',
-            enum: Object.values(OutBoxStatus),
-            default: `'${OutBoxStatus.PENDING}'`,
+            enum: ['PENDING', 'SENT', 'FAILED'],
+            default: "'PENDING'",
             isNullable: false,
           },
           {
@@ -70,7 +72,7 @@ export class CreateOutbox1758000397 implements MigrationInterface {
     );
   }
 
-  async down(queryRunner: QueryRunner): Promise<any> {
+  async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('outbox_message');
   }
 }

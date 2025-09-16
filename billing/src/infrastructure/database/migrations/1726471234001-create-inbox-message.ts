@@ -1,7 +1,9 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateInbox1757998551 implements MigrationInterface {
-  async up(queryRunner: QueryRunner): Promise<any> {
+export class CreateInboxMessage1726471234001 implements MigrationInterface {
+  name = 'CreateInboxMessage1726471234001';
+
+  async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
         name: 'inbox_message',
@@ -11,6 +13,7 @@ export class CreateInbox1757998551 implements MigrationInterface {
             type: 'uuid',
             isPrimary: true,
             isGenerated: true,
+            generationStrategy: 'uuid',
             isNullable: false,
           },
           {
@@ -40,7 +43,7 @@ export class CreateInbox1757998551 implements MigrationInterface {
     );
   }
 
-  async down(queryRunner: QueryRunner): Promise<any> {
+  async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('inbox_message');
   }
 }

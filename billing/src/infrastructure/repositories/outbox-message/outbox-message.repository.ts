@@ -3,6 +3,7 @@ import { Event } from 'src/domain/common/event';
 import { OutBoxStatus } from 'src/domain/outbox-message/enums/outbox-status.enum';
 import { OutboxMessage } from 'src/domain/outbox-message/outbox-message.entity';
 import { DataSource, Repository } from 'typeorm';
+import { OutboxMessagePayloadType } from './outbox-message.interface';
 
 @Injectable()
 export class OutboxMessageRepository extends Repository<OutboxMessage> {

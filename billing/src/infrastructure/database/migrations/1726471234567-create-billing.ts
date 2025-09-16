@@ -1,7 +1,9 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateBilling1758000462 implements MigrationInterface {
-  async up(queryRunner: QueryRunner): Promise<any> {
+export class CreateBilling1726471234567 implements MigrationInterface {
+  name = 'CreateBilling1726471234567';
+
+  async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
         name: 'billings',
@@ -11,6 +13,7 @@ export class CreateBilling1758000462 implements MigrationInterface {
             type: 'uuid',
             isPrimary: true,
             isGenerated: true,
+            generationStrategy: 'uuid',
             isNullable: false,
           },
           {
@@ -33,7 +36,7 @@ export class CreateBilling1758000462 implements MigrationInterface {
     );
   }
 
-  async down(queryRunner: QueryRunner): Promise<any> {
+  async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('billings');
   }
 }

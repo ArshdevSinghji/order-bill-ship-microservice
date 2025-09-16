@@ -1,4 +1,4 @@
-type OutboxMessagePayloadType = {
+export type OutboxMessagePayloadType = {
   message_id: string;
   type: string;
   properties: OutboxMessagePropertiesType;
