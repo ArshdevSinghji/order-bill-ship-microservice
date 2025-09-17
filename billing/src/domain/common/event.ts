@@ -27,7 +27,9 @@ export class Event {
   }
   getHeaders() {
     return {
+      message_id: this.getId(),
       type: this.getType(),
+      app_id: this.appId,
       content_type: 'application/json',
     };
   }

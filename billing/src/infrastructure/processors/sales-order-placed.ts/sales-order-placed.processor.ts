@@ -23,7 +23,7 @@ export class SalesOrderPlacedProcessor {
   async handleEvent(payload: EventPayload<SalesOrderPlacedEvent>) {
     console.log('Processing Sales Order Placed Event:', payload);
 
-    // await this.handler.handle(payload.body.sales_order_placed.order_total);
+    await this.handler.handle(payload.body);
 
     await this.inboxMessageRepository.storeInboxMessage({
       message_id: payload.messageId,

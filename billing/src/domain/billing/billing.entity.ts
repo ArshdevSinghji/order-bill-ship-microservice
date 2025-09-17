@@ -9,7 +9,7 @@ export class Billing {
   order_id: string;
 
   @Column({ type: 'uuid' })
-  billing_account_ids: string;
+  billing_account_id: string;
 
   @Column()
   billing_address: string;

@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from './infrastructure/database/type-orm';
+import { BillingProcessModule } from './features/billing-requests/billing-process/billing-process.module';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import { TypeOrmModule } from './infrastructure/database/type-orm';
       isGlobal: true,
     }),
     TypeOrmModule,
+    BillingProcessModule,
   ],
   controllers: [AppController],
   providers: [AppService],

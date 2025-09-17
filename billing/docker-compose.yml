@@ -35,7 +35,6 @@ services:
       - billing-network
     depends_on:
       - postgres
-
   # rabbitmq:
   #   image: rabbitmq:3-management-alpine
   #   restart: unless-stopped
