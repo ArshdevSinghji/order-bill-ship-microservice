@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { LazyLoadHandler } from './lazy-loader.service';
-import { SalesOrderPlacedModule } from './sales-order-placed.ts/sales-order-placed.module';
-import { SalesOrderPlacedProcessor } from './sales-order-placed.ts/sales-order-placed.processor';
-import { SalesOrderBilledModule } from './sales-order-billed.ts/sales-order-billed.module';
-import { SalesOrderBilledProcessor } from './sales-order-billed.ts/sales-order-billed.processor';
+import { SalesOrderPlacedModule } from './sales-order-placed/sales-order-placed.module';
+import { SalesOrderPlacedProcessor } from './sales-order-placed/sales-order-placed.processor';
+import { SalesOrderBilledModule } from './sales-order-billed/sales-order-billed.module';
+import { SalesOrderBilledProcessor } from './sales-order-billed/sales-order-billed.processor';
+import { SalesOrderPaymentFailedProcessor } from './sales-order-payment-failed/sales-order-payment-failed.processor';
+import { SalesOrderPaymentFailedModule } from './sales-order-payment-failed/sales-order-payment-failed.module';
 
 @Injectable()
 export class SignatureTypes {
@@ -15,14 +17,20 @@ export class SignatureTypes {
         this.lazyLoader.handle(
           SalesOrderPlacedModule,
           SalesOrderPlacedProcessor,
-        )
+        ),
       ],
       'billing.order_billed': [
         this.lazyLoader.handle(
           SalesOrderBilledModule,
           SalesOrderBilledProcessor,
-        )
-      ]
+        ),
+      ],
+      'billing.payment_failed': [
+        this.lazyLoader.handle(
+          SalesOrderPaymentFailedModule,
+          SalesOrderPaymentFailedProcessor,
+        ),
+      ],
     };
   }
 
