@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OrderBilled } from 'src/domain/billing/event/order-billed';
-import { PaymentFailed } from 'src/domain/billing/event/payment_failed';
+import { PaymentFailed } from 'src/domain/billing/event/payment-failed';
 import { SalesOrderPlacedEvent } from 'src/infrastructure/processors/sales-order-placed.ts/sales-order-placed.interface';
 import { BillingAccountsRepository } from 'src/infrastructure/repositories/billing-account/billing-account.repository';
 import { BillingRepository } from 'src/infrastructure/repositories/billing/billing.repository';

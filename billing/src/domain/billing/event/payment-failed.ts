@@ -1,6 +1,6 @@
 import { Event } from 'src/domain/common/event';
 
-export class OrderBilled extends Event {
+export class PaymentFailed extends Event {
   type = 'billing.payment_failed';
 
   getBody() {
