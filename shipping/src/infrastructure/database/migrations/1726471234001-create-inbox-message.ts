@@ -4,6 +4,7 @@ export class CreateInboxMessage1726471234001 implements MigrationInterface {
   name = 'CreateInboxMessage1726471234001';
 
   async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`);
     await queryRunner.createTable(
       new Table({
         name: 'inbox_message',
