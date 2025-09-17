@@ -1,0 +1,96 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: shipping_db
+      POSTGRES_USER: shipping
+      POSTGRES_PASSWORD: shipping
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb. //d
+    ports:
+      - '5434:5432'
+    networks:
+      - shipping-network
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U shipping -d shipping_db']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@shipping.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    ports:
+      - '8082:80'
+    networks:
+      - shipping-network
+    depends_on:
+      - postgres
+
+  shipping-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: shipping
+      DB_PASSWORD: shipping
+      DB_DATABASE: shipping_db
+
+      RABBITMQ_USERNAME: guest
+      RABBITMQ_PASSWORD: guest
+      RABBITMQ_DSN: amqp://guest:guest@rabbitmq:5672/
+      APP_NAME: shipping-service
+      RABBITMQ_FANOUT_EXCHANGE: fanout_exchange
+      RABBITMQ_HEARTBEAT_INTERVAL: 30
+      RABBITMQ_DIRECT_EXCHANGE: shipping_direct_exchange
+      RABBITMQ_PRIMARY_QUEUE: shipping_primary_queue
+      RABBITMQ_RETRY_QUEUE: shipping_retry_queue
+      RABBITMQ_RETRY_BINDING_KEY: shipping_retry_key
+      RABBITMQ_ERROR_BINDING_KEY: shipping_error_key
+      FAILED_MESSAGE_DELAYED_RETRIES: 5
+      FAILED_MESSAGE_IMMEDIATE_RETRIES: 3
+      RETRY_QUEUE_MESSAGE_TTL: 60000
+      CONSUME_MESSAGE_LIMIT: 100
+      DISPATCH_MESSAGE_LIMIT: 100
+
+      PORT: 3000
+      NODE_ENV: development
+    ports:
+      - '3002:3000'
+    networks:
+      - shipping-network
+      - sales-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./logs:/app/logs
+      - .:/app
+      - /app/node_modules
+
+networks:
+  shipping-network:
+    driver: bridge
+  sales-network:
+    external: true
+    name: sales_sales-network
+
+volumes:
+  postgres_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+  rabbitmq_data:
+    driver: local
