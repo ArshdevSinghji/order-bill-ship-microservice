@@ -30,7 +30,7 @@ export class OrderBilledService {
         throw new BadRequestException('Shipping order not found');
       }
 
-      shipping.product.map(async (p) => {
+      shipping.products.map(async (p) => {
         const product: Products | null =
           await this.productsRepository.getProduct(p.product_id);
 

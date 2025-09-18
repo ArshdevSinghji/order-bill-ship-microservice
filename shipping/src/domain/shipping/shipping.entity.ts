@@ -20,10 +20,10 @@ export class Shipping {
   order_id: string;
 
   @Column({ type: 'varchar', length: 255 })
-  address: string;
+  billing_address: string;
 
   @Column({ type: 'jsonb' })
-  product: Product[];
+  products: Product[];
 
   @CreateDateColumn()
   created_at: Date;
