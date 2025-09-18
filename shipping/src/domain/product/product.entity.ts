@@ -19,4 +19,8 @@ export class Products {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  updateStock(quantity: number) {
+    this.quantity_on_hand -= quantity;
+  }
 }

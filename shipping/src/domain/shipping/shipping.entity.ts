@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-interface Product {
+export interface Product {
   product_id: string;
   quantity: number;
 }

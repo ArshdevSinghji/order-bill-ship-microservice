@@ -15,6 +15,5 @@ import { Module } from '@nestjs/common';
       },
     }),
   ],
-  exports: [NestTypeOrmModule],
 })
 export class TypeOrmModule {}

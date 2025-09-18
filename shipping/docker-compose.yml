@@ -1,5 +1,5 @@
 services:
-  postgres:
+  shipping-postgres:
     image: postgres:15-alpine
     restart: unless-stopped
     environment:
@@ -34,7 +34,7 @@ services:
     networks:
       - shipping-network
     depends_on:
-      - postgres
+      - shipping-postgres
 
   shipping-service:
     build:
@@ -42,7 +42,7 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     environment:
-      DB_HOST: postgres
+      DB_HOST: shipping-postgres
       DB_PORT: 5432
       DB_USER: shipping
       DB_PASSWORD: shipping
@@ -73,7 +73,7 @@ services:
       - shipping-network
       - sales-network
     depends_on:
-      postgres:
+      shipping-postgres:
         condition: service_healthy
     volumes:
       - ./logs:/app/logs

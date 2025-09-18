@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { LazyLoadHandler } from './lazy-loader.service';
+import { BillingOrderBilledModule } from './billing-order-billed/billing-order-billed.module';
+import { BillingOrderBilledProcessor } from './billing-order-billed/billing-order-billed.processor';
 
 @Injectable()
 export class SignatureTypes {
@@ -7,7 +9,12 @@ export class SignatureTypes {
 
   constructor(private readonly lazyLoader: LazyLoadHandler) {
     this.signatureTypes = {
-      'sales.order_placed': [() => console.log('Event handled!')],
+      'billing.order_billed': [
+        this.lazyLoader.handle(
+          BillingOrderBilledModule,
+          BillingOrderBilledProcessor,
+        ),
+      ],
     };
   }
 
