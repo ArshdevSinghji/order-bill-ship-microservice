@@ -7,6 +7,7 @@ export class OrderBilled extends Event {
     return {
       billing_order_billed: {
         order_id: this.payload.order_id,
+        order_total: this.payload.order_total,
       },
     };
   }

@@ -26,4 +26,8 @@ export class BillingAccount {
   async updateBalance(amount: number) {
     this.balance -= amount;
   }
+
+  async refundBalance(amount: number) {
+    this.balance += amount;
+  }
 }

@@ -5,7 +5,7 @@ import { BillingProcessService } from './billing-process.service';
 import { OutboxMessageRepository } from 'src/infrastructure/repositories/outbox-message/outbox-message.repository';
 import { BillingRepository } from 'src/infrastructure/repositories/billing/billing.repository';
 import { BillingAccountsRepository } from 'src/infrastructure/repositories/billing-account/billing-account.repository';
-import { OrderBilledService } from 'src/features/order/order-billed/order-billed.service';
+import { OrderBilledService } from 'src/features/order-billed/order-billed.service';
 import { Billing } from 'src/domain/billing/billing.entity';
 import { BillingAccount } from 'src/domain/billing-account/billing-account.entity';
 import { OutboxMessage } from 'src/domain/outbox-message/outbox-message.entity';
