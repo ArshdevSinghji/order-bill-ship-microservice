@@ -8,6 +8,10 @@ export class ProductsRepository extends Repository<Products> {
     super(Products, dataSource.createEntityManager());
   }
 
+  async getAllProducts() {
+    return await this.find();
+  }
+
   async getProduct(id: string) {
     return await this.findOne({ where: { id } });
   }
