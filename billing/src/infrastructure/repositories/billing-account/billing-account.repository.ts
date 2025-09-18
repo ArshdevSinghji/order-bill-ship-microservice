@@ -8,6 +8,10 @@ export class BillingAccountsRepository extends Repository<BillingAccount> {
     super(BillingAccount, dataSource.createEntityManager());
   }
 
+  async getAccounts() {
+    return await this.find();
+  }
+
   async getAccountDetails(accountId: string) {
     return await this.findOne({
       where: { id: accountId },
