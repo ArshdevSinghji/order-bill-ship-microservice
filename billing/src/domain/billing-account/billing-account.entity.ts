@@ -23,11 +23,16 @@ export class BillingAccount {
   @UpdateDateColumn()
   updated_at: Date;
 
-  async updateBalance(amount: number) {
-    this.balance -= amount;
+  updateBalance(amount: number) {
+    const currentBalance = Number(this.balance);
+    const newBalance = currentBalance - amount;
+    this.balance = Number(newBalance.toFixed(2));
   }
 
-  async refundBalance(amount: number) {
-    this.balance += amount;
+  refundBalance(amount: number) {
+    const currentBalance = Number(this.balance);
+    const newBalance = currentBalance + amount;
+
+    this.balance = Number(newBalance.toFixed(2));
   }
 }

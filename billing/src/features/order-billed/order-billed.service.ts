@@ -37,15 +37,20 @@ export class OrderBilledService {
         );
 
       if (!account) {
-        throw new BadRequestException('Billing account not found');
+        await this.outboxMessageRepository.storeOutboxMessage(
+          new PaymentFailed(payload.sales_order_placed),
+        );
+        return;
       }
 
       if (account.balance < order_total) {
-        throw new BadRequestException(
-          'Insufficient balance in billing account',
+        await this.outboxMessageRepository.storeOutboxMessage(
+          new PaymentFailed(payload.sales_order_placed),
         );
+        return;
       }
-      await account.updateBalance(order_total);
+
+      account.updateBalance(order_total);
       await this.billingAccountsRepository.save(account);
 
       await this.outboxMessageRepository.storeOutboxMessage(
@@ -53,9 +58,6 @@ export class OrderBilledService {
       );
     } catch (error) {
       console.log('Error processing order billing:', error);
-      await this.outboxMessageRepository.storeOutboxMessage(
-        new PaymentFailed(payload.sales_order_placed),
-      );
     }
   }
 }

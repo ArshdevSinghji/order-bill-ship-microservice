@@ -39,7 +39,7 @@ export class ShippingBackOrderedService {
         throw new BadRequestException('Billing account not found');
       }
 
-      await account.refundBalance(order_total);
+      account.refundBalance(order_total);
       await this.billingAccountsRepository.save(account);
 
       await this.outboxMessageRepository.storeOutboxMessage(

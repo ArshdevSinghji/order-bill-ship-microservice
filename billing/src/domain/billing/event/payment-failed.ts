@@ -6,7 +6,7 @@ export class PaymentFailed extends Event {
   getBody() {
     return {
       billing_payment_failed: {
-        order_id: this.payload.id,
+        order_id: this.payload.order_id,
       },
     };
   }
