@@ -1,3 +1,5 @@
 export interface SalesOrderReadyToShipEvent {
-  order_id: string;
+  shipping_label_created: {
+    order_id: string;
+  };
 }

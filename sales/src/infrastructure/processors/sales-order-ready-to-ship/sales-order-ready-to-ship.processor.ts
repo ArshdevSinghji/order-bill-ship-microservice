@@ -21,7 +21,7 @@ export class SalesOrderReadyToShipProcessor {
   @Transactional()
   async handleEvent(payload: EventPayload<SalesOrderReadyToShipEvent>) {
     console.log('Processing Sales Order Ready To Ship Event:', payload);
-    const { order_id } = payload.body || {};
+    const { order_id } = payload.body.shipping_label_created || {};
 
     await this.handler.handle(order_id);
 

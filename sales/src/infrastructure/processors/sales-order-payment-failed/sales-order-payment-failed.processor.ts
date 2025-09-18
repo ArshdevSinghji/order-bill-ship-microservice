@@ -21,7 +21,7 @@ export class SalesOrderPaymentFailedProcessor {
   @Transactional()
   async handleEvent(payload: EventPayload<SalesOrderPaymentFailedEvent>) {
     console.log('Processing Sales Order Payment Failed Event:', payload);
-    const { order_id } = payload.body || {};
+    const { order_id } = payload.body.billing_payment_failed || {};
 
     await this.handler.handle(order_id);
 

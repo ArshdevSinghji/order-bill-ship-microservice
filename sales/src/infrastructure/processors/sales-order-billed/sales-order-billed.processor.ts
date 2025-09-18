@@ -21,7 +21,7 @@ export class SalesOrderBilledProcessor {
   @Transactional()
   async handleEvent(payload: EventPayload<SalesOrderBilledEvent>) {
     console.log('Processing Sales Order Billed Event:', payload);
-    const { order_id } = payload.body || {};
+    const { order_id } = payload.body.billing_order_billed || {};
     await this.handler.handle(order_id);
 
     await this.inboxMessageRepository.storeInboxMessage({

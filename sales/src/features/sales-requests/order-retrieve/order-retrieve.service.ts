@@ -10,6 +10,6 @@ export class OrderRetrieveService {
   ) {}
 
   async getOrders() {
-    return await this.orderRepository.getOrder();
+    return await this.orderRepository.getOrders();
   }
 }

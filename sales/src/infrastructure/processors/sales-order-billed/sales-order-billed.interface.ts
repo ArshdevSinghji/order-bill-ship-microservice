@@ -1,3 +1,5 @@
 export interface SalesOrderBilledEvent {
-  order_id: string;
+  billing_order_billed: {
+    order_id: string;
+  };
 }

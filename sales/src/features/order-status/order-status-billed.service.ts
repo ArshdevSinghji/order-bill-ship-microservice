@@ -10,14 +10,14 @@ export class OrderStatusBilledService {
   ) {}
 
   async handle(orderId: string) {
-    const order = await this.orderRepository.getOrder(orderId);
+    const order = await this.orderRepository.getOrderById(orderId);
 
     if (!order) {
       throw new BadRequestException('Order not found');
     }
 
-    order[0].markAsBilled();
+    order.markAsBilled();
 
-    return await this.orderRepository.save(order[0]);
+    return await this.orderRepository.save(order);
   }
 }

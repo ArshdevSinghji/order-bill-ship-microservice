@@ -1,3 +1,5 @@
 export interface SalesOrderCancelledEvent {
-  order_id: string;
+  billing_order_refunded: {
+    order_id: string;
+  };
 }

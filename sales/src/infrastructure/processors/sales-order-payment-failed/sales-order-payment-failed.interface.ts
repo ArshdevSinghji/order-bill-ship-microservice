@@ -1,3 +1,5 @@
 export interface SalesOrderPaymentFailedEvent {
-  order_id: string;
+  billing_payment_failed: {
+    order_id: string;
+  };
 }

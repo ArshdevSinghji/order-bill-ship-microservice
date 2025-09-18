@@ -8,8 +8,12 @@ export class OrderRepository extends Repository<Order> {
     super(Order, dataSource.createEntityManager());
   }
 
-  async getOrder(id?: string) {
-    return await this.find({ where: { id } });
+  async getOrderById(id?: string) {
+    return await this.findOne({ where: { id } });
+  }
+
+  async getOrders() {
+    return await this.find();
   }
 
   async createOrder(order: Order) {
