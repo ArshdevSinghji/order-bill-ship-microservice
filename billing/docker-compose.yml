@@ -1,5 +1,5 @@
 services:
-  postgres:
+  billing-postgres:
     image: postgres:15-alpine
     restart: unless-stopped
     environment:
@@ -34,25 +34,7 @@ services:
     networks:
       - billing-network
     depends_on:
-      - postgres
-  # rabbitmq:
-  #   image: rabbitmq:3-management-alpine
-  #   restart: unless-stopped
-  #   environment:
-  #     RABBITMQ_DEFAULT_USER: billing
-  #     RABBITMQ_DEFAULT_PASS: billing
-  #   volumes:
-  #     - rabbitmq_data:/var/lib/rabbitmq
-  #   ports:
-  #     - '5673:5672'
-  #     - '15673:15672'
-  #   networks:
-  #     - billing-network
-  #   healthcheck:
-  #     test: rabbitmq-diagnostics -q ping
-  #     interval: 30s
-  #     timeout: 30s
-  #     retries: 3
+      - billing-postgres
 
   billing-service:
     build:
@@ -60,7 +42,7 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     environment:
-      DB_HOST: postgres
+      DB_HOST: billing-postgres
       DB_PORT: 5432
       DB_USER: billing
       DB_PASSWORD: billing
@@ -91,7 +73,7 @@ services:
       - billing-network
       - sales-network
     depends_on:
-      postgres:
+      billing-postgres:
         condition: service_healthy
     volumes:
       - ./logs:/app/logs
