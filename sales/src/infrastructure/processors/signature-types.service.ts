@@ -6,6 +6,10 @@ import { SalesOrderBilledModule } from './sales-order-billed/sales-order-billed.
 import { SalesOrderBilledProcessor } from './sales-order-billed/sales-order-billed.processor';
 import { SalesOrderPaymentFailedProcessor } from './sales-order-payment-failed/sales-order-payment-failed.processor';
 import { SalesOrderPaymentFailedModule } from './sales-order-payment-failed/sales-order-payment-failed.module';
+import { SalesOrderCancelledModule } from './sales-order-cancelled/sales-order-cancelled.module';
+import { SalesOrderCancelledProcessor } from './sales-order-cancelled/sales-order-cancelled.processor';
+import { SalesOrderReadyToShipModule } from './sales-order-ready-to-ship/sales-order-ready-to-ship.module';
+import { SalesOrderReadyToShipProcessor } from './sales-order-ready-to-ship/sales-order-ready-to-ship.processor';
 
 @Injectable()
 export class SignatureTypes {
@@ -29,6 +33,18 @@ export class SignatureTypes {
         this.lazyLoader.handle(
           SalesOrderPaymentFailedModule,
           SalesOrderPaymentFailedProcessor,
+        ),
+      ],
+      'billing.order_refunded': [
+        this.lazyLoader.handle(
+          SalesOrderCancelledModule,
+          SalesOrderCancelledProcessor,
+        ),
+      ],
+      'shipping.shipping_label_created': [
+        this.lazyLoader.handle(
+          SalesOrderReadyToShipModule,
+          SalesOrderReadyToShipProcessor,
         ),
       ],
     };
