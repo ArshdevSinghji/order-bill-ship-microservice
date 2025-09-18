@@ -16,8 +16,8 @@ export class OrderStatusPaymentFailedService {
       throw new BadRequestException('Order not found');
     }
 
-    order.markAsPaymentFailed();
+    order[0].markAsPaymentFailed();
 
-    return await this.orderRepository.save(order);
+    return await this.orderRepository.save(order[0]);
   }
 }

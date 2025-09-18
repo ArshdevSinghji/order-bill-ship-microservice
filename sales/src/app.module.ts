@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from './infrastructure/database/type-orm';
 import { OrderCreatedModule } from './features/sales-requests/order-created/order-created.module';
+import { OrderRetrieveModule } from './features/sales-requests/order-retrieve/order-retrieve.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { OrderCreatedModule } from './features/sales-requests/order-created/orde
     }),
     TypeOrmModule,
     OrderCreatedModule,
+    OrderRetrieveModule,
   ],
   controllers: [AppController],
   providers: [AppService],

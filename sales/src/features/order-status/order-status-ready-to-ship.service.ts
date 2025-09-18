@@ -16,8 +16,8 @@ export class OrderStatusReadyToShipService {
       throw new BadRequestException('Order not found');
     }
 
-    order.markAsReadyToShip();
+    order[0].markAsReadyToShip();
 
-    return await this.orderRepository.save(order);
+    return await this.orderRepository.save(order[0]);
   }
 }

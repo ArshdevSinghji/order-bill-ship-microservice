@@ -16,8 +16,8 @@ export class OrderStatusCancelledService {
       throw new BadRequestException('Order not found');
     }
 
-    order.markAsCancelled();
+    order[0].markAsCancelled();
 
-    return await this.orderRepository.save(order);
+    return await this.orderRepository.save(order[0]);
   }
 }

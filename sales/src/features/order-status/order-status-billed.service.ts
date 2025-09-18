@@ -16,8 +16,8 @@ export class OrderStatusBilledService {
       throw new BadRequestException('Order not found');
     }
 
-    order.markAsBilled();
+    order[0].markAsBilled();
 
-    return await this.orderRepository.save(order);
+    return await this.orderRepository.save(order[0]);
   }
 }

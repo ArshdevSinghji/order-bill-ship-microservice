@@ -16,8 +16,8 @@ export class OrderStatusPlacedService {
       throw new BadRequestException('Order not found');
     }
 
-    order.markAsPlaced();
+    order[0].markAsPlaced();
 
-    return await this.orderRepository.save(order);
+    return await this.orderRepository.save(order[0]);
   }
 }
