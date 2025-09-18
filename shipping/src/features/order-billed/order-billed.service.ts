@@ -24,13 +24,17 @@ export class OrderBilledService {
   async handle(payload: BillingOrderBilledEvent) {
     try {
       const { order_id } = payload.billing_order_billed;
+      console.log(`Processing order ${order_id} for shipping`);
+
       const shipping = await this.shippingRepository.getShippingOrder(order_id);
 
       if (!shipping) {
         throw new BadRequestException('Shipping order not found');
       }
 
-      shipping.products.map(async (p) => {
+      let hasInsufficientStock = false;
+
+      for (const p of shipping.products) {
         const product: Products | null =
           await this.productsRepository.getProduct(p.product_id);
 
@@ -39,18 +43,28 @@ export class OrderBilledService {
         }
 
         if (p?.quantity > product?.quantity_on_hand) {
-          throw new BadRequestException(
-            `Insufficient stock for product ID: ${p.product_id}`,
+          console.log(
+            '========================INSUFFICIENT STOCK==================',
           );
+          hasInsufficientStock = true;
+          break;
         }
 
         product.updateStock(p.quantity);
         await this.productsRepository.save(product);
-      });
+      }
 
-      await this.outboxMessageRepository.storeOutboxMessage(
-        new ShippingLabelCreated(payload.billing_order_billed),
-      );
+      if (hasInsufficientStock) {
+        console.log('Dispatching ShippingBackOrdered event');
+        await this.outboxMessageRepository.storeOutboxMessage(
+          new ShippingBackOrdered(payload.billing_order_billed),
+        );
+      } else {
+        console.log('Dispatching ShippingLabelCreated event');
+        await this.outboxMessageRepository.storeOutboxMessage(
+          new ShippingLabelCreated(payload.billing_order_billed),
+        );
+      }
     } catch (error) {
       console.error('Error handling Billing Order Billed event:', error);
       await this.outboxMessageRepository.storeOutboxMessage(

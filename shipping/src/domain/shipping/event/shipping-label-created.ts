@@ -6,7 +6,7 @@ export class ShippingLabelCreated extends Event {
   getBody() {
     return {
       shipping_label_created: {
-        order_id: this.payload.id,
+        order_id: this.payload.order_id,
       },
     };
   }

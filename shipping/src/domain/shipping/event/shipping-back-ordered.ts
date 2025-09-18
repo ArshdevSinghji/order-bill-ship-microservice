@@ -6,7 +6,7 @@ export class ShippingBackOrdered extends Event {
   getBody() {
     return {
       shipping_back_ordered: {
-        order_id: this.payload.id,
+        order_id: this.payload.order_id,
         order_total: this.payload.order_total,
       },
     };
