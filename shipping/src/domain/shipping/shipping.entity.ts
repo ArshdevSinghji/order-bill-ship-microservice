@@ -25,9 +25,23 @@ export class Shipping {
   @Column({ type: 'jsonb' })
   products: Product[];
 
+  @Column({ type: 'boolean', default: false })
+  is_placed: boolean;
+
+  @Column({ type: 'boolean', default: false })
+  is_billed: boolean;
+
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  placeOrder() {
+    this.is_placed = true;
+  }
+
+  billOrder() {
+    this.is_billed = true;
+  }
 }

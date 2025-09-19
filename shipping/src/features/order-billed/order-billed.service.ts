@@ -32,6 +32,13 @@ export class OrderBilledService {
         throw new BadRequestException('Shipping order not found');
       }
 
+      shipping.billOrder();
+      await this.shippingRepository.save(shipping);
+
+      if (!shipping.is_placed && !shipping.is_billed) {
+        return;
+      }
+
       let hasInsufficientStock = false;
 
       for (const p of shipping.products) {
@@ -49,18 +56,16 @@ export class OrderBilledService {
           hasInsufficientStock = true;
           break;
         }
-
+        //needs to maintain concurrency??
         product.updateStock(p.quantity);
         await this.productsRepository.save(product);
       }
 
       if (hasInsufficientStock) {
-        console.log('Dispatching ShippingBackOrdered event');
         await this.outboxMessageRepository.storeOutboxMessage(
           new ShippingBackOrdered(payload.billing_order_billed),
         );
       } else {
-        console.log('Dispatching ShippingLabelCreated event');
         await this.outboxMessageRepository.storeOutboxMessage(
           new ShippingLabelCreated(payload.billing_order_billed),
         );
