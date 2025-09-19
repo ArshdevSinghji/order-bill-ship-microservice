@@ -12,9 +12,10 @@ export class BillingAccountsRepository extends Repository<BillingAccount> {
     return await this.find();
   }
 
-  async getAccountDetails(accountId: string) {
+  async getAccountDetail(accountId: string) {
     return await this.findOne({
       where: { id: accountId },
+      lock: { mode: 'pessimistic_write' },
     });
   }
 }

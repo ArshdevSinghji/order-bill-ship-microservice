@@ -20,7 +20,7 @@ export class BillingProcessService {
   async processOrder(payload: BillingProcess) {
     const billing = await this.billingRepository.createBilling(payload);
 
-    const account = await this.billingAccountsRepository.getAccountDetails(
+    const account = await this.billingAccountsRepository.getAccountDetail(
       payload.billing_account_id,
     );
     if (!account) {

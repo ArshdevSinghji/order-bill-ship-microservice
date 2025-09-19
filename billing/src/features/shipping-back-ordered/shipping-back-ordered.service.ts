@@ -1,10 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OrderRefunded } from 'src/domain/billing/event/order-refunded';
-import { ShippingBackOrderedEvent } from 'src/infrastructure/processors/shipping-back-ordered/shipping-back-ordered.interface';
+import type { ShippingBackOrderedEvent } from 'src/infrastructure/processors/shipping-back-ordered/shipping-back-ordered.interface';
 import { BillingAccountsRepository } from 'src/infrastructure/repositories/billing-account/billing-account.repository';
 import { BillingRepository } from 'src/infrastructure/repositories/billing/billing.repository';
 import { OutboxMessageRepository } from 'src/infrastructure/repositories/outbox-message/outbox-message.repository';
+import { Transactional } from 'typeorm-transactional';
 
 @Injectable()
 export class ShippingBackOrderedService {
@@ -17,12 +18,13 @@ export class ShippingBackOrderedService {
     private readonly billingRepository: BillingRepository,
   ) {}
 
+  @Transactional()
   async handle(payload: ShippingBackOrderedEvent) {
     const { order_total, order_id } = payload.shipping_back_ordered;
 
     try {
       const billingAccount =
-        await this.billingRepository.getBillingDetails(order_id);
+        await this.billingRepository.getBillingDetail(order_id);
 
       if (!billingAccount) {
         throw new BadRequestException('Billing account not found');
@@ -31,7 +33,7 @@ export class ShippingBackOrderedService {
       const billing_account_id = billingAccount.billing_account_id;
 
       const account =
-        await this.billingAccountsRepository.getAccountDetails(
+        await this.billingAccountsRepository.getAccountDetail(
           billing_account_id,
         );
 

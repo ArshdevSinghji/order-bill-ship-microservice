@@ -2,10 +2,11 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OrderBilled } from 'src/domain/billing/event/order-billed';
 import { PaymentFailed } from 'src/domain/billing/event/payment-failed';
-import { SalesOrderPlacedEvent } from 'src/infrastructure/processors/sales-order-placed.ts/sales-order-placed.interface';
+import type { SalesOrderPlacedEvent } from 'src/infrastructure/processors/sales-order-placed.ts/sales-order-placed.interface';
 import { BillingAccountsRepository } from 'src/infrastructure/repositories/billing-account/billing-account.repository';
 import { BillingRepository } from 'src/infrastructure/repositories/billing/billing.repository';
 import { OutboxMessageRepository } from 'src/infrastructure/repositories/outbox-message/outbox-message.repository';
+import { Transactional } from 'typeorm-transactional';
 
 @Injectable()
 export class OrderBilledService {
@@ -18,12 +19,13 @@ export class OrderBilledService {
     private readonly billingRepository: BillingRepository,
   ) {}
 
+  @Transactional()
   async handle(payload: SalesOrderPlacedEvent) {
     const { order_total, order_id } = payload.sales_order_placed;
 
     try {
       const billingAccount =
-        await this.billingRepository.getBillingDetails(order_id);
+        await this.billingRepository.getBillingDetail(order_id);
 
       if (!billingAccount) {
         throw new BadRequestException('Billing account not found');
@@ -32,7 +34,7 @@ export class OrderBilledService {
       const billing_account_id = billingAccount.billing_account_id;
 
       const account =
-        await this.billingAccountsRepository.getAccountDetails(
+        await this.billingAccountsRepository.getAccountDetail(
           billing_account_id,
         );
 
@@ -58,6 +60,7 @@ export class OrderBilledService {
       );
     } catch (error) {
       console.log('Error processing order billing:', error);
+      throw error;
     }
   }
 }

@@ -13,7 +13,7 @@ export class BillingRepository extends Repository<Billing> {
     return await this.save(billing);
   }
 
-  async getBillingDetails(id: string) {
+  async getBillingDetail(id: string) {
     return await this.findOne({
       where: [{ id: id }, { order_id: id }],
     });
