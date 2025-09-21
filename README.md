@@ -25,19 +25,24 @@ It showcases **a resilient and reliable message-driven architecture** using a me
 5.  **Cancel Order**: The `Order` service consumes the `OrderRefunded` event and updates the order's status to `Canceled`.
 
 ### Setup and Running Instructions
-- 1. Clone the Repository
+1. Clone the Repository
   First, clone the project from GitHub to your local machine.
+
   ```
   https://github.com/ArshdevSinghji/order-bill-ship-microservice.git
   ```
-- 2. Navigate and Run API Gateway
+
+2. Navigate and Run API Gateway
+   
   ```
   cd order-bill-ship-microservice/api-gateway
   node main.js
   ```
-- 3. Start the Microservices
+
+3. Start the Microservices
   The individual services (`order`, `billing`, and `shipping`) are located on separate branches (`order-service`, `billing-service`, `shipping-service`).
   For each service, you need to navigate to its branch and start its Docker containers.
+
   ```
   # Example for the 'order' service
   git checkout order-service
@@ -45,12 +50,16 @@ It showcases **a resilient and reliable message-driven architecture** using a me
   docker compose up
   Note: You'll need to repeat this step for the billing and shipping service branches as well.
   ```
-- 4. Run Message Handlers
+
+4. Run Message Handlers
   The message handlers are the background processes that consume messages from RabbitMQ. Navigate to the directory containing your handler scripts and run them.
+
   ```
   npm run handle-messages
   ```
-- 5. Start Message Dispatchers
+
+5. Start Message Dispatchers
+
   ```
   npm run dispatch-messages
   ```
